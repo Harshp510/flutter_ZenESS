@@ -1,3 +1,4 @@
+import 'package:Face_recognition/Attendance_Code.dart';
 import 'package:Face_recognition/Employee_Directory.dart';
 import 'package:Face_recognition/Holidays.dart';
 import 'package:Face_recognition/Homepage.dart';
@@ -52,6 +53,7 @@ class Myapp extends StatelessWidget {
           '/register': (context) => const Register(),
           '/myprofile': (context) => const MyProfile(),
           '/holidays': (context) => const Holidays(),
+          '/attendance_code': (context) => const Attendance_Code(),
 
         },
       ),

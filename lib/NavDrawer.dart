@@ -85,6 +85,20 @@ class _NavDrawerState extends State<NavDrawer> {
     });
 
   }
+  void _navigateToAttendanceCode(BuildContext nextcontext)
+  {
+    Future.delayed(Duration(milliseconds: 400),()
+    {
+      final abc = NavigationService.navigatorKey.currentContext;
+      //Navigator.pushNamed(abc!, "/second");
+
+      doRoute(abc!, "/attendance_code");
+
+
+
+    });
+
+  }
   void doRoute(BuildContext context, String name) {
     _currentRoute = Provider.of<DrawerItemRow>(context,listen: false).currentRoute;
     print('route-->'+_currentRoute);
@@ -184,6 +198,7 @@ class _NavDrawerState extends State<NavDrawer> {
                     width: 24),
                 title: new Text("Attendance",style: TextStyle(fontSize: 16,fontFamily: ApiConstants.fontname,color: Colors.black87,fontWeight: FontWeight.normal),),
                 onTap: () {
+                  _navigateToAttendanceCode(context);
                   Navigator.pop(context);
                 }),
             ExpansionTile(

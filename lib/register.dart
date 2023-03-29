@@ -401,60 +401,62 @@ class _RegisterState extends State<Register> {
     );
   }
   Future<void> RegisterUserTask(BuildContext context) async {
-    var file = await _localFile_andi;
-    if(_isurldbfile){
 
-      _permissionReady = await getStoragePermission();
-      print(_permissionReady);
-      if(_permissionReady){
-        var isdownload = await getDownloadFile(_userfacedblist!);
-        print('isdownload==>'+isdownload.toString());
-        if(isdownload){
-          final downloadfile = await _localFile_andi;
+    if(Platform.isAndroid){
+      var file = await _localFile_andi;
+      if(_isurldbfile){
 
-          file = downloadfile;
-          print('abc-->'+file.path);
-        }
+        _permissionReady = await getStoragePermission();
+        print(_permissionReady);
+        if(_permissionReady){
+          var isdownload = await getDownloadFile(_userfacedblist!);
+          print('isdownload==>'+isdownload.toString());
+          if(isdownload){
+            final downloadfile = await _localFile_andi;
 
-        var databasesPath = await getDatabasesPath();
-        print("db_path1==>"+databasesPath.toString());
-        var path = join(databasesPath, "face_rec_ess.db");
-        print("db_path2==>"+path.toString());
+            file = downloadfile;
+            print('abc-->'+file.path);
+          }
 
-        var exists = await databaseExists(path);
-        print("exists==>"+exists.toString());
+          var databasesPath = await getDatabasesPath();
+          print("db_path1==>"+databasesPath.toString());
+          var path = join(databasesPath, "face_rec_ess.db");
+          print("db_path2==>"+path.toString());
 
-        // final file = getSomeCorrectFile(); // File
-        final bytes_ = await file.readAsBytes(); // Uint8List
-        final data = bytes_.buffer.asByteData(); // ByteData
-        List<int> bytes =
-        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+          var exists = await databaseExists(path);
+          print("exists==>"+exists.toString());
 
-        // Write and flush the bytes written
-        await File(path).writeAsBytes(bytes, flush: true);
+          // final file = getSomeCorrectFile(); // File
+          final bytes_ = await file.readAsBytes(); // Uint8List
+          final data = bytes_.buffer.asByteData(); // ByteData
+          List<int> bytes =
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
-        var bomDataTable = await openDatabase(path, readOnly: true);
-        print("exists1==>"+ bomDataTable.toString());
-        listuser = await sampleData(bomDataTable);
-        listuser  //convert list data  to json
-            .map(
-              (player) => player.toJson(),
-        )
-            .toList();
-        print("data_read==>"+json.encode(listuser));
-        //print("data_read==>"+listuser[0].name);
+          // Write and flush the bytes written
+          await File(path).writeAsBytes(bytes, flush: true);
 
-        for(var i in listuser){
-          print(i.emp_id);
-          print(i.name);
-          print(i.desination);
-          print(i.array);
-        }
-        await writeContent(listuser);
-        //api ErpAccess
-       // String EmployeeId=PreferenceUtils.getString("EmployeeId");
-       // _Erpaccesslist = await ApiService().getERPAcess(EmployeeId);
-       /* if(_Erpaccesslist!.length>0){
+          var bomDataTable = await openDatabase(path, readOnly: true);
+          print("exists1==>"+ bomDataTable.toString());
+          listuser = await sampleData(bomDataTable);
+          listuser  //convert list data  to json
+              .map(
+                (player) => player.toJson(),
+          )
+              .toList();
+          print("data_read==>"+json.encode(listuser));
+          //print("data_read==>"+listuser[0].name);
+
+          for(var i in listuser){
+            print(i.emp_id);
+            print(i.name);
+            print(i.desination);
+            print(i.array);
+          }
+          await writeContent(listuser);
+          //api ErpAccess
+          // String EmployeeId=PreferenceUtils.getString("EmployeeId");
+          // _Erpaccesslist = await ApiService().getERPAcess(EmployeeId);
+          /* if(_Erpaccesslist!.length>0){
 
           if(!await IsLocationEnable()){
            await handleOpenLocationSettings(context);
@@ -464,9 +466,60 @@ class _RegisterState extends State<Register> {
           }
 
         }*/
-      }
+        }
 
+      }
+    }else if(Platform.isIOS) {
+      var file = await _localFile_ios;
+       if(_isurldbfile) {
+          var isdownload = await getDownloadFile(_userfacedblist!);
+          print('isdownload==>'+isdownload.toString());
+                if(isdownload){
+                  final downloadfile = await _localFile_andi;
+
+                  file = downloadfile;
+                  print('abc-->'+file.path);
+              }
+          var databasesPath = await getDatabasesPath();
+          print("db_path1==>"+databasesPath.toString());
+          var path = join(databasesPath, "face_rec_ess.db");
+          print("db_path2==>"+path.toString());
+
+          var exists = await databaseExists(path);
+          print("exists==>"+exists.toString());
+
+          // final file = getSomeCorrectFile(); // File
+          final bytes_ = await file.readAsBytes(); // Uint8List
+          final data = bytes_.buffer.asByteData(); // ByteData
+          List<int> bytes =
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+
+          // Write and flush the bytes written
+          await File(path).writeAsBytes(bytes, flush: true);
+
+          var bomDataTable = await openDatabase(path, readOnly: true);
+          print("exists1==>"+ bomDataTable.toString());
+          listuser = await sampleData(bomDataTable);
+          listuser  //convert list data  to json
+              .map(
+                (player) => player.toJson(),
+          )
+              .toList();
+          print("data_read==>"+json.encode(listuser));
+          //print("data_read==>"+listuser[0].name);
+
+          for(var i in listuser){
+            print(i.emp_id);
+            print(i.name);
+            print(i.desination);
+            print(i.array);
+          }
+          await writeContent(listuser);
+
+     }
     }
+
+
   }
   Future<void> PunchHere(BuildContext context) async {
     String EmployeeId=PreferenceUtils.getString("EmployeeId");
